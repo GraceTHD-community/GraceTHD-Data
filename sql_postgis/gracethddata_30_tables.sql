@@ -57,7 +57,7 @@ CONSTRAINT "t_organisme_data_pk" PRIMARY KEY (or_code));
 
 CREATE TABLE t_reference_data(	rf_code VARCHAR(254) NOT NULL  ,
 	rf_type VARCHAR(2)   REFERENCES l_reference_type (code),
-	rf_fabric VARCHAR(20), --  REFERENCES t_organisme (or_code),
+	rf_fabric VARCHAR(20)  REFERENCES t_organisme_data (or_code),
 	rf_design VARCHAR(254)   ,
 	rf_etat VARCHAR(1)   REFERENCES l_reference_etat (code),
 	rf_comment VARCHAR(254)   ,

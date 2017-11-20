@@ -1,7 +1,7 @@
 /* gracethddata_31_insert.sql */
 /* Owner : GraceTHD-Community - http://gracethd-community.github.io/ */
 /* Author : stephane dot byache at aleno dot eu */
-/* Rev. date : 19/11/2017 */
+/* Rev. date : 20/11/2017 */
 
 /* ********************************************************************
     This file is part of GraceTHD.
@@ -20,7 +20,9 @@
     along with GraceTHD.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************** */
 
---Spatialite
+
+SET search_path = gracethddata, pg_catalog;
+
 BEGIN;
 INSERT INTO t_organisme_data VALUES ('OR033001000000', '750531253', '@FER Conseil', 'Operateur', NULL, 'AFER', '75053125300011', NULL, NULL, '14 RUE DE LIMOGES  56000 VANNES', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2017-11-19 22:30:50', NULL, NULL, NULL, NULL);
 INSERT INTO t_organisme_data VALUES ('OR033001000001', '749812558', '1.0 ACOLA', 'Operateur', NULL, 'ACOL', '74981255800015', NULL, NULL, '20 BIS RUE LOUIS PHILIPPE  92200 NEUILLY SUR SEINE', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2017-11-19 22:30:50', NULL, NULL, NULL, NULL);

@@ -31,11 +31,16 @@ CALL:DEBUG
 REM ECHO Gracepg - CREATION DE LA BASE. 
 REM CALL:BASE
 REM PAUSE
-ECHO Gracepg - CREATION DU SCHEMA
-CALL:SCHEMA_GRACETHDDATA
-PAUSE
-REM ECHO Gracepg - CREATION DES TABLES
+ECHO GraceTHD-DATA - PostGIS - CREATION DU SCHEMA
+CALL :SCHEMA_GRACETHDDATA
 CALL :TABLES_GRACETHDDATA
+CALL :INSERT_GRACETHDDATA
+CALL :INSERT_GRACETHDDATAREL
+CALL :VIEWS_GRACETHDDATA
+CALL :GRANT_GRACETHDDATA
+
+CALL :END
+
 GOTO:EOF
 
 
@@ -53,28 +58,75 @@ GOTO:EOF
 
 
 :BASE
-REM SHELL
-ECHO GraceTHD - Postgis - Creation de la base de donnees %PGHOSTNAME%:%PGDB%. 
+REM Inutilise avec GraceTHD-Data
+ECHO GraceTHD-Data - Postgis - Creation de la base de donnees %PGHOSTNAME%:%PGDB%. 
 "%GL_PSQL%" -h %PGHOSTNAME% -p %PGPORT% -c "CREATE DATABASE %PGDB%;" -d %PGTEMPLATE% -U %PGUSER%
 "%GL_PSQL%" -h %PGHOSTNAME% -p %PGPORT% -c "CREATE EXTENSION postgis;" -d %PGDB% -U %PGUSER%
 REM "%GL_PSQL%" -d %PGDB% -c "CREATE EXTENSION postgis_topology;"
+%GLPAUSE%
 
 GOTO:EOF
 
 :SCHEMA_GRACETHDDATA
-ECHO GraceTHD - Postgis - Creation du schema %PGSCHEMADATA%. 
+ECHO GraceTHD-Data - Postgis - Creation du schema %PGSCHEMADATA%. 
 "%GL_PSQL%" -h %PGHOSTNAME% -p %PGPORT% -c "CREATE SCHEMA IF NOT EXISTS %PGSCHEMADATA% AUTHORIZATION %PGROLE%;" -d %PGDB% -U %PGUSER% 
 REM "%GL_PSQL%" -h %PGHOSTNAME% -p %PGPORT% -c "ALTER DATABASE %GLCTPGDB% SET search_path = %GLCTPGSCHEMACHECK%, %GLCTPGSCHEMA%, public;" -U %PGUSER% 
 "%GL_PSQL%" -h %PGHOSTNAME% -p %PGPORT% -c "ALTER DATABASE %GLCTPGDB% SET search_path = %PGSCHEMADATA%, public;" -d %GLCTPGDB% -U %PGUSER% 
+%GLPAUSE%
+
 GOTO:EOF
 
 :TABLES_GRACETHDDATA
 
-CALL gracethddata_pg_create_tables.bat
+SET FSQL=gracethddata_30_tables.sql
+ECHO GraceTHD-Data - Postgis - %FSQL%
+"%GL_PSQL%" -h %PGHOSTNAME% -p %PGPORT% -f "%GLCTPGSQLPATH%\%FSQL%" -d %PGDB% -U %PGUSER%
+%GLPAUSE%
+
 GOTO:EOF
 
+:INSERT_GRACETHDDATA
+
+SET FSQL=gracethddata_31_insert_or.sql
+ECHO GraceTHD-Data - Postgis - %FSQL%
+"%GL_PSQL%" -h %PGHOSTNAME% -p %PGPORT% -f "%GLCTPGSQLPATH%\%FSQL%" -d %PGDB% -U %PGUSER%
+
+SET FSQL=gracethddata_32_insert_rf.sql
+ECHO GraceTHD-Data - Postgis - %FSQL%
+"%GL_PSQL%" -h %PGHOSTNAME% -p %PGPORT% -f "%GLCTPGSQLPATH%\%FSQL%" -d %PGDB% -U %PGUSER%
+
+REM Les données des tables _rel sont renseignées par l'import de fichiers t_organisme_rel.csv et t_reference_rel.csv
+REM Donc déclenchement du script d'import gracethddata_pg_import.bat
+%GLPAUSE%
+
+GOTO:EOF
+
+:INSERT_GRACETHDDATAREL
+
+ECHO GraceTHD-Data - Postgis - Import des données des tables de relations gracethd / gracethddata dans les tables _rel. 
+CALL gracethddata_pg_import_shpcsv-in_psql.bat
+
+GOTO:EOF
+
+:VIEWS_GRACETHDDATA
+
+SET FSQL=gracethddata_60_views.sql
+ECHO GraceTHD-Data - Postgis - %FSQL%
+"%GL_PSQL%" -h %PGHOSTNAME% -p %PGPORT% -f "%GLCTPGSQLPATH%\%FSQL%" -d %PGDB% -U %PGUSER%
+%GLPAUSE%
+
+GOTO:EOF
+
+:GRANT_GRACETHDDATA
+
+SET FSQL=gracethddata_99_grant.sql
+ECHO GraceTHD-Data - Postgis - %FSQL%
+"%GL_PSQL%" -h %PGHOSTNAME% -p %PGPORT% -f "%GLCTPGSQLPATH%\%FSQL%" -d %PGDB% -U %PGUSER%
+%GLPAUSE%
+
+GOTO:EOF
 
 :END
 
-PAUSE
+%GLPAUSE%
 GOTO:EOF
