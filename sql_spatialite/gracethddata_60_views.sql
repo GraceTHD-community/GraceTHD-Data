@@ -1,7 +1,7 @@
 /* gracethddata_60_views.sql */
 /* Owner : GraceTHD-Community - http://gracethd-community.github.io/ */
 /* Author : stephane dot byache at aleno dot eu */
-/* Rev. date : 19/11/2017 */
+/* Rev. date : 18/05/2018 */
 
 /* ********************************************************************
     This file is part of GraceTHD.
@@ -22,12 +22,15 @@
 
 /*Spatialite*/
 
-DROP VIEW IF EXISTS v_organisme_int;
-DROP VIEW IF EXISTS v_organisme_data;
-DROP VIEW IF EXISTS v_organisme_ok;
+DROP VIEW IF EXISTS v_dt_organisme_int;
+DROP VIEW IF EXISTS v_dt_organisme;
+DROP VIEW IF EXISTS v_dt_organisme_ok;
+DROP VIEW IF EXISTS v_dt_reference_int;
+DROP VIEW IF EXISTS v_dt_reference;
+DROP VIEW IF EXISTS v_dt_reference_ok;
 
-/* Les organismes internes, donc sans mise en correspondance avec t_organisme_data via t_organisme_rel*/
-CREATE VIEW v_organisme_int AS
+/* Les organismes internes, donc sans mise en correspondance avec t_dt_organisme via t_dt_organisme_rel*/
+CREATE VIEW v_dt_organisme_int AS
 SELECT 
 	O.or_code,
 	O.or_siren,
@@ -53,14 +56,14 @@ SELECT
 	O.or_abddate,
 	O.or_abdsrc	
 FROM t_organisme AS O
-LEFT JOIN t_organisme_rel AS R ON O.or_code = R.oo_or_code 
+LEFT JOIN t_dt_organisme_rel AS R ON O.or_code = R.oo_or_code 
 WHERE R.oo_or_code IS NULL
 ORDER BY O.or_code
 ;
 
 
 /*Les organismes_data sélectionnés via la table de relation*/
-CREATE VIEW v_organisme_data AS
+CREATE VIEW v_dt_organisme AS
 SELECT
 	D.or_code,
 	D.or_siren,
@@ -85,17 +88,69 @@ SELECT
 	D.or_majsrc,
 	D.or_abddate,
 	D.or_abdsrc	
-FROM t_organisme_data AS D, t_organisme_rel AS R
+FROM t_dt_organisme AS D, t_dt_organisme_rel AS R
 WHERE 
 D.or_code = R.oo_codedat
 ;
 
-
 /* Les organismes valables en interne (int + data) */
-CREATE VIEW v_organisme_ok AS
-SELECT * FROM v_organisme_int
+CREATE VIEW v_dt_organisme_ok AS
+SELECT * FROM v_dt_organisme_int
 UNION
-SELECT * FROM v_organisme_data
+SELECT * FROM v_dt_organisme
 ORDER BY or_code
 ;
+
+
+/* ************************************* */
+
+/* Les references internes, donc sans mise en correspondance avec t_dt_reference via t_dt_reference_rel*/
+CREATE VIEW v_dt_reference_int AS
+SELECT 
+	T.rf_code,
+  T.rf_type,
+  T.rf_fabric,
+  T.rf_design,
+  T.rf_etat,
+  T.rf_comment,
+  T.rf_creadat,
+  T.rf_majdate,
+  T.rf_majsrc,
+  T.rf_abddate,
+  T.rf_abdsrc
+FROM t_reference AS T
+LEFT JOIN t_dt_reference_rel AS R ON T.rf_code = R.rr_rf_code 
+WHERE R.rr_rf_code IS NULL
+ORDER BY T.rf_code
+;
+
+
+/*Les références GraceTHD-Data sélectionnés via la table de relation*/
+CREATE VIEW v_dt_reference AS
+SELECT
+	T.rf_code,
+  T.rf_type,
+  T.rf_fabric,
+  T.rf_design,
+  T.rf_etat,
+  T.rf_comment,
+  T.rf_creadat,
+  T.rf_majdate,
+  T.rf_majsrc,
+  T.rf_abddate,
+  T.rf_abdsrc
+FROM t_dt_reference AS T, t_dt_reference_rel AS R
+WHERE 
+T.rf_code = R.rr_codedat
+;
+
+
+/* Les références valables en interne (int + data) */
+CREATE VIEW v_dt_reference_ok AS
+SELECT * FROM v_dt_reference_int
+UNION
+SELECT * FROM v_dt_reference
+ORDER BY rf_code
+;
+
 

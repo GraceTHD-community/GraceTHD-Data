@@ -1,7 +1,7 @@
 /* gracethddata_30_tables.sql */
 /* Owner : GraceTHD-Community - http://gracethd-community.github.io/ */
 /* Author : stephane dot byache at aleno dot eu */
-/* Rev. date : 16/11/2017 */
+/* Rev. date : 18/05/2018 */
 
 /* ********************************************************************
     This file is part of GraceTHD.
@@ -22,13 +22,13 @@
 
 /*Spatialite*/
 
-DROP TABLE IF EXISTS t_reference_rel;
-DROP TABLE IF EXISTS t_organisme_rel;
-DROP TABLE IF EXISTS t_organisme_data;
-DROP TABLE IF EXISTS t_reference_data;
+DROP TABLE IF EXISTS t_dt_reference_rel;
+DROP TABLE IF EXISTS t_dt_organisme_rel;
+DROP TABLE IF EXISTS t_dt_organisme;
+DROP TABLE IF EXISTS t_dt_reference;
 
 
-CREATE TABLE t_organisme_data(	or_code VARCHAR (20) NOT NULL  ,
+CREATE TABLE t_dt_organisme(	or_code VARCHAR (20) NOT NULL  ,
 	or_siren VARCHAR(9)   ,
 	or_nom VARCHAR(254) NOT NULL  ,
 	or_type VARCHAR(254)   ,
@@ -36,7 +36,7 @@ CREATE TABLE t_organisme_data(	or_code VARCHAR (20) NOT NULL  ,
 	or_l331 VARCHAR(254)   ,
 	or_siret VARCHAR(14)   ,
 	or_nometab VARCHAR(254)   ,
-	or_ad_code VARCHAR(254), --  REFERENCES t_adresse(ad_code),
+	or_ad_code VARCHAR(254), --   REFERENCES t_adresse(ad_code),
 	or_nomvoie VARCHAR (254)   ,
 	or_numero INTEGER   ,
 	or_rep VARCHAR (20)   ,
@@ -51,11 +51,11 @@ CREATE TABLE t_organisme_data(	or_code VARCHAR (20) NOT NULL  ,
 	or_majsrc VARCHAR(254)   ,
 	or_abddate DATE   ,
 	or_abdsrc VARCHAR(254)   ,
-CONSTRAINT "t_organisme_data_pk" PRIMARY KEY (or_code));	
+CONSTRAINT "t_dt_organisme_pk" PRIMARY KEY (or_code));	
 
-CREATE TABLE t_reference_data(	rf_code VARCHAR(254) NOT NULL  ,
+CREATE TABLE t_dt_reference(	rf_code VARCHAR(254) NOT NULL  ,
 	rf_type VARCHAR(2)   REFERENCES l_reference_type (code),
-	rf_fabric VARCHAR(20)  REFERENCES t_organisme_data (or_code),
+	rf_fabric VARCHAR(20)  REFERENCES t_dt_organisme (or_code),
 	rf_design VARCHAR(254)   ,
 	rf_etat VARCHAR(1)   REFERENCES l_reference_etat (code),
 	rf_comment VARCHAR(254)   ,
@@ -64,16 +64,16 @@ CREATE TABLE t_reference_data(	rf_code VARCHAR(254) NOT NULL  ,
 	rf_majsrc VARCHAR(254)   ,
 	rf_abddate DATE   ,
 	rf_abdsrc VARCHAR(254)   ,
-CONSTRAINT "t_reference_data_pk" PRIMARY KEY (rf_code));	
+CONSTRAINT "t_dt_reference_pk" PRIMARY KEY (rf_code));	
 
-CREATE TABLE t_organisme_rel(
-	oo_codedat VARCHAR(254) REFERENCES t_organisme_data(or_code),
+CREATE TABLE t_dt_organisme_rel(
+	oo_codedat VARCHAR(254) REFERENCES t_dt_organisme(or_code),
 	oo_or_code VARCHAR(254) REFERENCES t_organisme(or_code),
-CONSTRAINT "t_organisme_rel_pk" PRIMARY KEY (oo_codedat, oo_or_code)
+CONSTRAINT "t_dt_organisme_rel_pk" PRIMARY KEY (oo_codedat, oo_or_code)
 );
 
-CREATE TABLE t_reference_rel(
-	rr_codedat VARCHAR(254) REFERENCES t_reference_data(rf_code),
+CREATE TABLE t_dt_reference_rel(
+	rr_codedat VARCHAR(254) REFERENCES t_dt_reference(rf_code),
 	rr_rf_code VARCHAR(254) REFERENCES t_reference(rf_code),
-CONSTRAINT "t_reference_rel_pk" PRIMARY KEY (rr_codedat, rr_rf_code)
+CONSTRAINT "t_dt_reference_rel_pk" PRIMARY KEY (rr_codedat, rr_rf_code)
 );
