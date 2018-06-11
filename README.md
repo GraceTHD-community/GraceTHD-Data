@@ -1,8 +1,8 @@
 # GraceTHD-Data
 
 Extension du modèle de données GraceTHD-MCD destinée à enrichir et partager des référentiels de données GraceTHD dans un mode communautaire. Les tables suivantes ont été initialisées avec quelques premières données à partir de sources disponibles. 
-* gracethddata.t_organisme_data
-* gracethddata.t_reference_data 
+* gracethddata.t_dt_organisme
+* gracethddata.t_dt_reference
 
 Des tables permettent de mettre en relation des codes d'organismes et de références GraceTHD-Data avec vos codes disponibles dans vos référentiels internes pour ceux qui ont des codes antérieurs à GraceTHD-Data. 
 
