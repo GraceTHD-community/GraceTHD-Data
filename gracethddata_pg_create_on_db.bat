@@ -3,7 +3,7 @@
 REM gracethddata_pg_create_db.bat
 REM Owner : GraceTHD-Community - http://gracethd-community.github.io/
 REM Author : stephane dot byache at aleno dot eu
-REM Rev. date : 16/11/2017
+REM Rev. date : 25/06/2018
 
     REM This file is part of GraceTHD.
 
@@ -98,6 +98,10 @@ ECHO GraceTHD-Data - Postgis - %FSQL%
 REM Les données des tables _rel sont renseignées par l'import de fichiers t_organisme_rel.csv et t_reference_rel.csv
 REM Donc déclenchement du script d'import gracethddata_pg_import.bat
 %GLPAUSE%
+
+SET FSQL=gracethddata_33_insert_tk_tg.sql
+ECHO GraceTHD-Data - Postgis - %FSQL%
+"%GL_PSQL%" -h %PGHOSTNAME% -p %PGPORT% -f "%GLCTPGSQLPATH%\%FSQL%" -d %PGDB% -U %PGUSER%
 
 GOTO:EOF
 
