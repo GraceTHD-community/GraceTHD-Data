@@ -26,10 +26,10 @@
 
 INSERT INTO t_dt_tgkey VALUES 
 ('tech','Techologie',NULL,'2018-06-25 23:18:00',NULL,'aleno',NULL,NULL),
-('tech:tfo','Techologie telecom fibre',NULL,'2018-06-25 23:18:00',NULL,'aleno',NULL,NULL),
-('tech:thz','Techologie telecom hertzienne',NULL,'2018-06-25 23:18:00',NULL,'aleno',NULL,NULL),
-('tech:tcx','Techologie telecom coaxiale',NULL,'2018-06-25 23:18:00',NULL,'aleno',NULL,NULL),
-('tech:tcu','Techologie telecom cuivre',NULL,'2018-06-25 23:18:00',NULL,'aleno',NULL,NULL)
+('tech:tfo','Technologie telecom fibre',NULL,'2018-06-25 23:18:00',NULL,'aleno',NULL,NULL),
+('tech:thz','Technologie telecom hertzienne',NULL,'2018-06-25 23:18:00',NULL,'aleno',NULL,NULL),
+('tech:tcx','Technologie telecom coaxiale',NULL,'2018-06-25 23:18:00',NULL,'aleno',NULL,NULL),
+('tech:tcu','Technologie telecom cuivre',NULL,'2018-06-25 23:18:00',NULL,'aleno',NULL,NULL)
 ;
 
 INSERT INTO t_dt_tag VALUES

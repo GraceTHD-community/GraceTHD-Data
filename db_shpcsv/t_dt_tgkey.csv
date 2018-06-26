@@ -1,6 +1,6 @@
 tk_key;tk_def;tk_comment;tk_creadat;tk_majdate;tk_majsrc;tk_abddate;tk_abdsrc
-tech;Techologie;;2018-06-25 23:18:00;;aleno;;
-tech:tfo;Techologie telecom fibre;;2018-06-25 23:18:00;;aleno;;
-tech:thz;Techologie telecom hertzienne;;2018-06-25 23:18:00;;aleno;;
-tech:tcx;Techologie telecom coaxiale;;2018-06-25 23:18:00;;aleno;;
-tech:tcu;Techologie telecom cuivre;;2018-06-25 23:18:00;;aleno;;
+tech;Technologie;;2018-06-25 23:18:00;;aleno;;
+tech:tfo;Technologie telecom fibre;;2018-06-25 23:18:00;;aleno;;
+tech:thz;Technologie telecom hertzienne;;2018-06-25 23:18:00;;aleno;;
+tech:tcx;Technologie telecom coaxiale;;2018-06-25 23:18:00;;aleno;;
+tech:tcu;Technologie telecom cuivre;;2018-06-25 23:18:00;;aleno;;
